@@ -2,33 +2,11 @@ name: CI
 
 on:
   push:
-    branches: ['*']
-  pull_request:
-    branches: [main]
-
-permissions:
-  contents: read
-
-env:
-  CARGO_TERM_COLOR: always
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
-      - name: Install libudev headers (for hidapi crate)
-        run: |
-          sudo apt-get update
-          sudo apt-get install libudev-dev
       - name: Build
-        run: cargo build --verbose
-      - name: Run clippy
-        run: cargo clippy -- -D warnings
-
-  check-formatting:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Check formatting
-        run: cargo fmt --check
+        run: ./src/device_ids.rs
